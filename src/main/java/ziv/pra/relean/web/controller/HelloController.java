@@ -1,6 +1,9 @@
 package ziv.pra.relean.web.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import ziv.pra.relean.web.model.Book;
 import ziv.pra.relean.web.model.TestModel;
 
 import java.util.HashMap;
@@ -13,13 +16,21 @@ import java.util.Map;
 //模板開發用controller，rest風格的用restController
 //@Controller
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/v2")
 public class HelloController {
+//    @Autowired
+//    private Book book;
 
     //RequestMapping不寫method的話，就是get/post/delete 都可以請求到
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String sayHello() {
         return "hello world";
+    }
+
+    @RequestMapping(value = "/world", method = RequestMethod.GET)
+    public Book testPropValue() {
+
+        return null;
     }
 
     //使用ResponseBody可以直接返回books字串而不是模板

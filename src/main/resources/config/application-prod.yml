@@ -1,0 +1,11 @@
+server:
+  port: 8082
+  servlet:
+    context-path: /api
+
+logging:
+  level:
+    root: warn
+    ziv.pra.relean: debug
+  file:
+    path: logs/prod.log
