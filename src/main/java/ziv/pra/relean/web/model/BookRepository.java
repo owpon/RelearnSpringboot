@@ -1,6 +1,7 @@
 package ziv.pra.relean.web.model;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -34,5 +35,15 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     //這裡直接使用sql語句，但是要搭配參數"nativeQuery"才可以使用
     @Query(value = "select * from book where length(name)>?1", nativeQuery = true)
     List<Book> findByMyQuerySql2(int len);
+
+    //如果是用update語句，就要使用modifying的annotation去更改
+    //因為這是update語句，所以要再service層加入transaction
+    @Modifying
+    @Query("update Book b set b.status=?1 where b.id=?2")
+    int updateMyData(int status, long id);
+
+    @Modifying
+    @Query("delete from Book b where b.id=?1 ")
+    int deleteMyData(long id);
 
 }

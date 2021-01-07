@@ -127,4 +127,19 @@ public class BookController {
     public List<Book> getByMyQuerySql(@RequestParam int len) {
         return bookService.findByMyQuerySql(len);
     }
+
+    @PostMapping("/books/by6")
+    public int updateBookData(@RequestParam int status, @RequestParam long id) {
+        return bookService.updataBookData(status, id);
+    }
+
+    @PostMapping("/books/by7")
+    public int deleteBookData(@RequestParam long id) {
+        return bookService.deleteBookData(id);
+    }
+
+    @PostMapping("/books/by8")
+    public int testTranscation(@RequestParam long id, @RequestParam int status, @RequestParam long uid) {
+        return bookService.testSpringTransaction(id, status, uid);
+    }
 }

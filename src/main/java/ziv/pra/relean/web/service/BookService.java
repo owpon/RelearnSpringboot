@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ziv.pra.relean.web.model.Book;
 import ziv.pra.relean.web.model.BookRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -106,6 +107,25 @@ public class BookService {
     public List<Book> findByMyQuerySql(int len) {
 //        return bookRepository.findByMyQuerySql(len);
         return bookRepository.findByMyQuerySql2(len);
+    }
+
+    //要再service層加入transactional來確保如果出錯可以rollback回去
+    @Transactional
+    public int updataBookData(int status, long id) {
+        return bookRepository.updateMyData(status, id);
+    }
+
+    @Transactional
+    public int deleteBookData(long id) {
+        return bookRepository.deleteMyData(id);
+    }
+
+    //這裡使用spring 的transactional
+    @org.springframework.transaction.annotation.Transactional
+    public int testSpringTransaction(long id, int status, long uid) {
+        int dcount = bookRepository.deleteMyData(id);
+        int ucount = bookRepository.updateMyData(status, uid);
+        return dcount + ucount;
     }
 }
 
