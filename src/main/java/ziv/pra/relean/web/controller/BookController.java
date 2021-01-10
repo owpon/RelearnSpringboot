@@ -1,11 +1,11 @@
 package ziv.pra.relean.web.controller;
 
-import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import ziv.pra.relean.web.model.Book;
 import ziv.pra.relean.web.service.BookService;
 
@@ -27,7 +27,7 @@ public class BookController {
      * @param model
      * @return
      */
-    @GetMapping("/book")
+    @GetMapping("/books")
     public String list(Model model) {
         List<Book> books = bookService.findAll();
         model.addAttribute("books", books);
@@ -52,5 +52,27 @@ public class BookController {
 
         }
         return "book";
+    }
+
+    /**
+     * 跳轉input頁面
+     *
+     * @return
+     */
+    @GetMapping("/book/input")
+    public String pageInput() {
+        return "input";
+    }
+
+    /**
+     * 送出新書單
+     *
+     * @param book
+     * @return
+     */
+    @PostMapping("/books")
+    public String postSumit(Book book) {
+        bookService.save(book);
+        return "redirect:/books";
     }
 }
