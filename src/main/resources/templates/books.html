@@ -11,6 +11,11 @@
 <body>
 <div class="container">
     <h2 class="header">列表</h2>
+    <div class="alert alert-success alert-dismissible" th:unless="${#strings.isEmpty(message)}">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <strong>唷齁齁</strong>
+        <span th:text="${message}">新增成功</span>
+    </div>
     <p class="text-right"><a href="#" th:href="@{/book/input}" class="btn btn-primary">新增</a></p>
     <table class="table table-bordered">
         <thead>
@@ -20,6 +25,7 @@
             <th>author</th>
             <th>description</th>
             <th>status</th>
+            <th>操作</th>
         </tr>
         </thead>
         <tbody>
@@ -50,9 +56,12 @@
             <td th:text="${book.description}">this is good</td>
 
             <td th:switch="${book.status}">
-                <span th:case="5">未讀</span>
-                <span th:case="6">已讀</span>
+                <span th:case="0">未讀</span>
+                <span th:case="1">已讀</span>
                 <span th:case="*">狀態不明</span>
+            </td>
+            <td>
+                <a href="#" th:href="@{/book/{id}/input(id=${book.id})}">update</a>
             </td>
         </tr>
 
