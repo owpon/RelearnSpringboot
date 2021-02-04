@@ -1,6 +1,10 @@
 package ziv.pra.relean.web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ziv.pra.relean.web.model.Book;
 import ziv.pra.relean.web.model.BookRepository;
@@ -17,6 +21,14 @@ import java.util.Optional;
 public class BookService {
     @Autowired
     private BookRepository bookRepository;
+
+    public Page<Book> findAllBypage() {
+        //依照id排序
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        //因為用new 的方法已經被protect起來了，所以換成PageRequest.of
+        Pageable pages = PageRequest.of(1, 5, sort);
+        return bookRepository.findAll(pages);
+    }
 
     /**
      * 查詢所有的資料

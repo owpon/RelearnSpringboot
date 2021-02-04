@@ -1,6 +1,7 @@
 package ziv.pra.relean.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import ziv.pra.relean.web.model.Book;
 import ziv.pra.relean.web.model.BookRepository;
@@ -24,6 +25,13 @@ public class BookApp {
     public List<Book> getAll() {
         return bookService.findAll();
     }
+
+
+    @GetMapping("/getAll")
+    public Page<Book> getAllData() {
+        return bookService.findAllBypage();
+    }
+
 
     @PostMapping("/books")
     public Book saveBook(@RequestParam String name,

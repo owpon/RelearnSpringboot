@@ -1,5 +1,7 @@
 package ziv.pra.relean.web.model;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,6 +16,9 @@ import java.util.List;
  * @date 2020-12-29 10:39 上午
  */
 public interface BookRepository extends JpaRepository<Book, Long> {
+    //分頁查詢
+    Page<Book> findAll(Pageable pageable);
+
     //同 select * from books where author =?
     List<Book> findByAuthor(String author);
 
