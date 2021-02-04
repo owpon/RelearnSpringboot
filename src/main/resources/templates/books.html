@@ -37,8 +37,54 @@
             even/odd:偶數/奇數
             first/last:第一條/最後一條
         -->
+        <!--
+            因為現在改成page的分頁模式，所以他的數據結構長程成這樣
+            {
+                "content": [
+                    {
+                        "id": 4,
+                        "status": 5,
+                        "name": "hhh",
+                        "author": "ggg",
+                        "description": "helloworld"
+                    },
+                    {
+                        "id": 1,
+                        "status": 2,
+                        "name": "aaww",
+                        "author": "ooff",
+                        "description": "qq"
+                    }
+                ],
+                "pageable": {
+                    "sort": {
+                        "sorted": true,
+                        "unsorted": false,
+                        "empty": false
+                    },
+                    "pageSize": 10,
+                    "pageNumber": 1,
+                    "offset": 10,
+                    "paged": true,
+                    "unpaged": false
+                },
+                "totalPages": 2,
+                "totalElements": 12,
+                "last": true,
+                "number": 1,
+                "size": 10,
+                "numberOfElements": 2,
+                "sort": {
+                    "sorted": true,
+                    "unsorted": false,
+                    "empty": false
+                },
+                "first": false,
+                "empty": false
+            }
+        -->
         <!--        像是java的for each的寫法-->
-        <tr th:each="book,iterStat:${books}" th:class="${iterStat.even}?bg-success">
+        <tr th:each="book,iterStat:${page.content}" th:class="${iterStat.even}?bg-success">
             <td th:text="${iterStat.count}">1</td>
             <td>
                 <!--
@@ -67,6 +113,20 @@
 
         </tbody>
     </table>
+    <nav>
+        <ul class="pagination">
+            <li class="page-item">
+                <!--
+                有兩種方法可以傳遞參數，一種類似傳統的url傳參
+                另一種類似function的方式傳遞參數
+                -->
+                <a class="page-link" href="#" th:href="@{'/books?page='+${page.number-1}}" th:unless="${page.first}">上一頁</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" th:href="@{/books(page=${page.number}+1)}" th:unless="${page.last}">下一頁</a>
+            </li>
+        </ul>
+    </nav>
 </div>
 </body>
 </html>

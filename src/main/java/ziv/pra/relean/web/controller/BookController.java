@@ -3,11 +3,14 @@ package ziv.pra.relean.web.controller;
 import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ziv.pra.relean.web.model.Book;
 import ziv.pra.relean.web.service.BookService;
@@ -31,9 +34,11 @@ public class BookController {
      * @return
      */
     @GetMapping("/books")
-    public String list(Model model) {
-        List<Book> books = bookService.findAll();
-        model.addAttribute("books", books);
+    public String list(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size, Model model) {
+//        List<Book> books = bookService.findAll();
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        Page<Book> page1 = bookService.findAllBypage(PageRequest.of(page, size, sort));
+        model.addAttribute("page", page1);
 //        這是返回books.html的頁面
         return "books";
     }

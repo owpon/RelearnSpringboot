@@ -2,6 +2,8 @@ package ziv.pra.relean.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import ziv.pra.relean.web.model.Book;
 import ziv.pra.relean.web.model.BookRepository;
@@ -28,8 +30,9 @@ public class BookApp {
 
 
     @GetMapping("/getAll")
-    public Page<Book> getAllData() {
-        return bookService.findAllBypage();
+    public Page<Book> getAllData(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        return bookService.findAllBypage(PageRequest.of(page, size, sort));
     }
 
 
