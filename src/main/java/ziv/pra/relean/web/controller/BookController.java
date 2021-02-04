@@ -4,7 +4,9 @@ import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,10 +36,10 @@ public class BookController {
      * @return
      */
     @GetMapping("/books")
-    public String list(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size, Model model) {
+    public String list(@PageableDefault(size = 5, sort = {"id"}, direction = Sort.Direction.DESC) Pageable pages, Model model) {
 //        List<Book> books = bookService.findAll();
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
-        Page<Book> page1 = bookService.findAllBypage(PageRequest.of(page, size, sort));
+        Page<Book> page1 = bookService.findAllBypage(pages);
         model.addAttribute("page", page1);
 //        這是返回books.html的頁面
         return "books";
